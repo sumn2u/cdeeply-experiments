@@ -27,3 +27,13 @@ Experiments on Cdeeply tool.
     --quantize
 
     ```
+
+### Folder Structure
+```sh
+project/
+├── predictions-task.py         # Main script to train and evaluate the model
+├── run_benchmarks.py           # Automation script for running experiments
+├── benchmark_results.csv       # Collected metrics from all benchmark runs
+├── benchmark_dashboard.ipynb   # Jupyter notebook to visualize results
+└── README.md                   # Project overview and usage instructions
+```

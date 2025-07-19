@@ -1,18 +1,3 @@
-* * * * * * * * * * * * * * * * * * * *
-
-Below is a selection from the Seoul weather dataset from:
-
-Cho et al., 2020
-https://www.kaggle.com/datasets/smokingkrils/temperature-forecast-project-using-ml
-
-The dataset below was modified from the Kaggle data set, by
-1) retaining only the rows for weather station 1
-2) removing rows with missing data
-3) removing the weather station column
-4) splitting the Date column into DayOfYear and Year columns.
-
-* * * * * * * * * * * * * * * * * * * *
-
 DayOfYear,Year,Present_Tmax,Present_Tmin,LDAPS_RHmin,LDAPS_RHmax,LDAPS_Tmax_lapse,LDAPS_Tmin_lapse,LDAPS_WS,LDAPS_LH,LDAPS_CC1,LDAPS_CC2,LDAPS_CC3,LDAPS_CC4,LDAPS_PPT1,LDAPS_PPT2,LDAPS_PPT3,LDAPS_PPT4,lat,lon,DEM,Slope,Solar radiation,Next_Tmax,Next_Tmin
 181,2013,28.7,21.4,58.2557,91.1164,28.0741,23.0069,6.81889,69.4518,0.233947,0.203896,0.161697,0.130928,0,0,0,0,37.6046,126.991,212.335,2.785,5992.9,29.1,21.2
 7,2013,28.3,21.2,72.7986,97.6428,25.2767,21.1426,15.608,64.9149,0.615612,0.843199,0.810455,0.62204,0.804222,9.93311,0.237004,0.848082,37.6046,126.991,212.335,2.785,5987.72,24.8,18.7

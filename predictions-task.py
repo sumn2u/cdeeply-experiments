@@ -8,6 +8,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import time
+import os
+import csv
 
 
 def parse_arguments():
@@ -112,7 +115,7 @@ def evaluate_model(y_test, y_pred, y_scaler=None, target_names=None, save_csv=Fa
                 df_out[f"y_pred_{i}"] = y_pred[:, i]
         df_out.to_csv("predictions_output.csv", index=False)
         print("💾 Saved predictions to predictions_output.csv")
-
+    return mae, mse, rmse, r2
 
 def main():
     args = parse_arguments()
@@ -155,16 +158,53 @@ def main():
 
     # Train
     print("\n🚀 Training model...")
+    start_time = time.time()
     model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_test, y_test), verbose=0)
+    training_time = time.time() - start_time
+    print(f"\n⏱️ Training Time: {training_time:.2f} seconds")
 
     # Predict and evaluate
+    start_pred = time.time()
     y_pred = model.predict(X_test)
-    evaluate_model(y_test, y_pred, y_scaler=scaler_y, target_names=target_names, save_csv=args.save_csv)
+    mae, mse, rmse, r2 =evaluate_model(y_test, y_pred, y_scaler=scaler_y, target_names=target_names, save_csv=args.save_csv)
+
+   
+    print("📊 Benchmark results saved to benchmark_results.csv")
+    # Inference time
+    inference_time = time.time() - start_pred
+    print(f"⚡ Inference Time: {inference_time:.2f} seconds for {len(X_test)} samples")
 
     # Quantization
     if args.quantize:
         quantize_model(model)
 
+    model.save("model.h5")
+    model_size = os.path.getsize("model.h5") / (1024**2)
+    print(f"📦 Model Size: {model_size:.2f} MB")
+
+    csv_file = "benchmark_results.csv"
+    file_exists = os.path.isfile(csv_file)
+
+    with open("benchmark_results.csv", "a") as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow([
+                "file", "activation", "max_layers", "max_neurons",
+                "training_time", "inference_time",
+                "mae", "mse", "rmse", "r2",
+                "model_size_MB", "quantized"
+            ])
+        writer.writerow([
+            args.file,
+            args.activation,
+            args.max_layers,
+            args.max_neurons,
+            training_time,
+            inference_time,
+            mae, mse, rmse, r2,
+            model_size,
+            args.quantize
+        ])
 
 if __name__ == '__main__':
     main()

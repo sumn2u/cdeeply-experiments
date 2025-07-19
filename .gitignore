@@ -9,3 +9,10 @@ prediction_vs_actual.png
 *.tf
 *.tflite
 *.csv
+*.h5
+*.log
+*.ipynb_checkpoints
+*.DS_Store
+.idea/
+.vscode/
+*.egg-info/
